@@ -1,0 +1,1 @@
+{"analyzer":"keyword", "index":"function(doc) {index('searchkey', doc.searchkey); index('created_time_int', doc.created_time_int, {'facet':true}); index('tally', doc.tally, {'facet':true}); index('sales', doc.sales, {'facet':true}); index('marketing', doc.marketing, {'facet':true});index('operations', doc.operations, {'facet':true});}"}

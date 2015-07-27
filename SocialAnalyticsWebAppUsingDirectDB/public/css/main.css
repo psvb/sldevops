@@ -1,0 +1,281 @@
+/* Roboto Condensed font definitions */
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Condensed'), local('RobotoCondensed-Regular'), url(../fonts/RobotoCondensed-Regular-400.woff) format('woff');
+}
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Roboto Condensed Light Italic'), local('RobotoCondensed-LightItalic'), url(../fonts/RobotoCondensed-LightItalic-300.woff) format('woff');
+}
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Roboto Condensed Italic'), local('RobotoCondensed-Italic'), url(../fonts/RobotoCondensed-Italic-400.woff) format('woff');
+}
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 60px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 16px;
+}
+ .mastfoot {
+    position: fixed;
+    bottom: 0;
+    width:100%;
+    background-color:rgba(66,139,202,0.5);
+ }
+ .mastfoot > .inner{
+    width: 100%; 
+    text-align:center; 
+    color:White;  /* Must be percentage or pixels for horizontal alignment */
+  }
+
+.green{color:green;}
+.red{color:red;}
+.orange{color:orange;}
+.sentialignment{text-align:left;}
+
+/*
+ * Global add-ons
+ */
+.white{color:#fff;}
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.logo {
+  position:absolute;
+  top:2px;
+  padding-top:5px;
+  padding-left:5px;
+  left:2px;
+}
+
+.icon-size
+{
+    font-size:x-large;
+    
+    }
+
+.aligned-left
+{
+    float:right;
+    
+    }
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+  border: 0;
+  background-color: #DDDDDD;
+  color:black;
+  min-height:40px;
+}
+
+.a-link
+{
+    color:#fff;
+    font-weight:normal;
+}
+
+/** btn color **/
+
+.blue
+{
+    background-color: rgba(4,137,189,1);
+    color:#fff;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+
+/*
+ * Main content
+ */
+
+.main {
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+.main .page-header {
+  margin-top: 0;
+  color: #428bca;
+}
+
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.placeholders h4 {
+  margin-bottom: 0;
+}
+.placeholder {
+  margin-bottom: 20px;
+}
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+/* Custom styles */
+.page-title {
+  width: 100%;
+  background-color: #7C1E84;
+  color: white;
+  font-size: 18px;
+  font-family: Comic Sans MS, Verdana, Arial, Geneva, Tahoma, sans-serif;
+  padding-left: 0px;
+  padding-top: 3px;
+  padding-bottom: 5px;
+}
+
+.menu-container {
+  width: 100%;
+  padding: 0px;
+  background-color: #FAFAFA;
+  border-bottom: 1px solid #B9B9B9;
+}
+
+.menu-table {
+  border-collapse: collapse;
+  padding: 0px;
+  margin: 0px;
+}
+
+.menu-td {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  white-space: nowrap;
+}
+
+a.menu-link:link {
+  font-size: 13px;
+  font-weight: bold;
+  color: #333333;
+}
+
+a.menu-link:active {
+  font-size: 13px;
+  font-weight: bold;
+  color: #333333;
+}
+
+a.menu-link:visited {
+  font-size: 13px;
+  font-weight: bold;
+  color: #333333;
+}
+
+a.menu-link:hover {
+  font-size: 13px;
+  font-weight: bold;
+  color: #333333;
+  text-decoration: none;
+}
+
+.textbox-generic {
+  width: 30%;
+  border: 1px solid #B9B9B9;
+  height: 25px;
+  padding-left: 10px;
+}
+
+.button-generic {
+     height: 25px;
+     background-color: #4486F7;
+     border: 1px solid #4486F7;
+     color: #ffffff;
+     font-weight: bold;
+     font-size: 13px;
+}
+
+.section-title {
+  color: #333333;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.section-title-underlined {
+  color: #333333;
+  font-size: 17px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.notes {
+  color: #333333;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.mandatory-field {
+  color: red;
+  font-weight: bold;
+}
+
+.field-label {
+  color: #333333;
+  font-size: 14px;
+  font-weight: bold;
+}

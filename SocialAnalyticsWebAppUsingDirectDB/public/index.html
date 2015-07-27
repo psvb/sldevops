@@ -1,0 +1,396 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 
+      The above 3 meta tags *must* come first in the head.
+      Any other head content must come *after* these tags. 
+    -->
+    <meta name="description" content="">
+    
+    <title>Looking through the Social Lens</title>
+   
+    <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['corechart']}]}"></script>
+
+    <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery.float.min.js"></script>
+    <script type="text/javascript" src="js/ie-emulation-modes-warning.js"></script>
+
+    <script type="text/javascript" src="js/util.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/jquery-graph.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+  </head>
+
+  <body>
+    <nav class="navbar  navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed white" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="a-link navbar-brand" href="#"><img src="images/logo.png" class="logo"/></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <div class="navbar-form navbar-right">
+            <span>Search tweets containing &nbsp;</span>
+            <input type="text" class="form-control" id="searchKey" onkeypress="handleSearchKeyboardEvent(event.keyCode)" placeholder="these words...">
+            &nbsp;
+            <input type="button" class="btn btn-default" value="Search" onclick="search()"/>
+          </div>
+        </div>
+      </div>
+
+      <ul class="nav nav-tabs" role="tablist" id="myTab" style="background-color:#fff; width:100%">
+        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+        <li role="presentation" class="hidden"><a href="#dashboard" aria-controls="home" role="tab" data-toggle="tab">Dashboard</a></li>
+        <li role="presentation" class="hidden"><a href="#Leads" aria-controls="profile" role="tab" data-toggle="tab">Leads</a></li>
+        <li role="presentation" class="hidden"><a href="#Sentiment" aria-controls="messages" role="tab" data-toggle="tab">Sentiment Analysis</a></li>
+        <li role="presentation">
+          <a href="http://genericofferwb.mybluemix.net/" target="_newtab" aria-controls="settings" role="tab">
+            Offer Workbench
+          </a>
+        </li>
+        <li role="presentation" class="hidden"><a href="#Personality" aria-controls="settings" role="tab" data-toggle="tab"></a></li>
+      </ul>
+    </nav>
+
+    <div class="container-fluid">
+      <br>
+      <div class="tab-content">
+        <br>
+        <div id="noDataMessage" class="alert alert-danger" style="display:none; color:Red;">
+          No matching tweets found !
+        </div>
+        <div id="noStringFound" class="alert alert-danger" style="display:none; color:Red;">
+          Empty String! Please enter the search string. 
+        </div>
+        <div role="tabpanel" class="tab-pane fade in active" id="home">
+          <div class="row">
+            <div class="main">
+              <img src="images/banner.png" style="float:right; margin-right:20%;"/>
+            </div>
+          </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="dashboard">
+          <div class="row">
+            <div class=" main">
+              <h1 class="page-header">Chart for Tweets</h1>
+              <div class="row placeholders">
+                <div class="col-xs-6 col-sm-3 placeholder">
+                  <h2>Sentiment Chart</h2>
+                  <div id="sentimentChart">
+                  </div>
+                </div>
+                <div class="col-xs-6 col-sm-3 placeholder">
+                  <h2>OMS Chart</h2>
+                  <div id="omsChart">
+                  </div>
+                </div>
+              </div>
+              <div class="row placeholders">
+                <div class="col-xs-6 col-sm-3 placeholder">
+                  <h2>Trend Chart</h2>
+                  <div id="sentimentTrendChart">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="Leads">
+          <div class="row">
+            <div class="main">
+              <h2 class="sub-header">
+                Tweets
+                <table class="table-condensed aligned-left">
+                  <tr>
+                    <td>
+                      <input type="button" value="Previous" class="btn blue" onclick="gotoPreviousTweetPage()"/>
+                    </td>
+                    <td>
+                      <input type="button" value="Next" class="btn blue" onclick="gotoNextTweetPage()"/>
+                    </td>
+                  </tr>
+                </table>
+              </h2>
+          
+              <div class="table-responsive">
+                <table class="table table-hover" id="tweetTable">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Twitter Id</th>
+                      <th>Username</th>
+                      <th>Sentiment</th>
+                      <th>Tweet Message</th>
+                      <th style="text-align:center;">Customer Details</th>
+                      <th>Mail</th>
+                      <th>SMS</th>
+                      <th>Offers</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div> 
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="Sentiment">
+          <div class="row" style="width:100%;">
+            <div class="main">
+              <h2 class="sub-header">Web Sentiment Analysis</h2>
+              <br>
+              <textarea id="websitesToAnalyze" rows="10" cols="100"></textarea>
+              <br><br>
+              <button type="button" class="btn btn-primary" onclick="doSentimentAnalysisOnWebsites();" >Analyze Sentiment</button>
+              <br><br>
+              <div class="table-responsive">
+                <table class="table" id="sentimentTable" data-sort-name="name" data-sort-order="desc" style="width:50%; text-align:left;">
+                  <thead>
+                    <tr>
+                      <th data-sortable="true" style="text-align:center">URL</th>
+                      <th data-sortable="true" style="text-align:center">Target</th>
+                      <th data-sortable="true" style="text-align:center">Sentiment</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="Personality"> 
+          <div class="row" style="width:100%;">
+            <div class="main">
+              <h1 class="page-header">Personality Analysis</h1>
+              <iframe src="#" style="zoom:1; position:absolute;" frameborder="0" height="75%" width="80%"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="alertDialog" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Information</h4>
+            </div>
+            <div class="modal-body">
+              <span id="alertMessage"></span>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="customerSearchDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Customer details search</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="recipient-name" class="control-label">Twitter Id:</label>
+                  <input type="text" class="form-control" id="customerTwitterId">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" onclick="getCustomerInfo();">Search</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="emailDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="H1">Email Tweet</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="recipient-name" class="control-label">Email:</label>
+                  <input type="text" class="form-control" id="emailAddresses">
+                  <p>Seperate multiple email addresses by ";"</p>
+                  <div id="emailAlert" class="alert alert-success" style="display:none">
+                    Email Sent Successfully.
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" onclick="sendEmail();" >Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="smsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="H2">SMS Tweet</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="recipient-name" class="control-label">Contact Number:</label>
+                  <input type="text" class="form-control" id="contactNumber" value="">
+                  <p>please mention country code</p>
+                  <div id="sentMessage" class="alert alert-danger" style="display:none;">
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" onclick="sendSms();" id="smsBtn">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="offersDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="H3">Offers</h4>
+            </div>
+            <div class="modal-body">
+              <p id="offersData"></p>
+              <table id="offersTable" class="table">
+                <thead>
+                  <td style="text-align:center">#<td>
+                  <td style="text-align:center">Offers<td>
+                </thead>
+              </table>
+              <div id="offersAlert" class="alert alert-danger" style="display:none;">	
+                No Offers are available!			
+              </div>
+              <div class="modal-footer" id="offerFooter">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="sentimentModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="H4">Sentiment Check</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="recipient-name" class="control-label">Tweet:</label>
+                  <input type="text" class="form-control" id="sentimenttweetText" value="">
+                  <label for="recipient-name" class="control-label">Search String:</label>
+                  <input type="text" class="form-control" id="sentimentSearchString" value="">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <a href="#"class="btn btn-primary" onclick="sentimentCall();">Check Sentiment</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="influenceChartDialog"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="H5">Influence Chart</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <div id="influenceChart">
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <a href="#"class="btn btn-primary" onclick="showPersonalityInsight();">
+                Personality Analysis
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="checkingmodal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="H5">Please wait..</h4>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="progressbar" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="H5">Fetching matching tweets..</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <div class="progress">
+                  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
