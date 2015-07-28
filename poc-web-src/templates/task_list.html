@@ -1,0 +1,22 @@
+<html>
+<head>
+  <title>Tasks</title>
+</head>
+<body>
+<h1>Task CRUD example!</h1>
+<hr/>
+<table>
+<thead><tr><th>Task</th><th>Action</th></tr></thead>
+<tbody>
+  {% for each in task_list %}
+  <tr><td>{{each.tasktitle}}</td><td><a href="updateTask?id={{each.taskid}}">Update</a> | <a href="deleteTask?id={{each.taskid}}">Delete</a></td></tr>
+  {% endfor %}
+<tr>
+<td><a href="newtask">Add New</a>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>
+
