@@ -50,3 +50,5 @@ DB_PORT = "50000"
 DB_USERNAME = "db2inst1"
 DB_PASSWORD = "db2inst1pwd"
 DB_NAME = "TEST"
+
+#testing commit by adding a dummy line
