@@ -12,11 +12,10 @@
   <tr><td>{{each.tasktitle}}</td><td><a href="updateTask?id={{each.taskid}}">Update</a> | <a href="deleteTask?id={{each.taskid}}">Delete</a></td></tr>
   {% endfor %}
 <tr>
-<td><a href="newtask">Add New</a>
+<td><form action="newtask"><input type="submit" name="addnew" id="addnew" class="addnew" value="Add New"/></form>
 </tr>
 </tbody>
 </table>
 
 </body>
 </html>
-
